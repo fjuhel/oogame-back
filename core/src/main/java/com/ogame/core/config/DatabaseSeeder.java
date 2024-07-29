@@ -54,21 +54,29 @@ public class DatabaseSeeder {
             userUniverse2.setHonorPoints(300);
             userUniverseRepository.save(userUniverse2);
 
-            Planet planet1 = new Planet();
-            planet1.setName("gum-gum pistol");
-            planet1.setUserUniverse(userUniverse1);
-            planet1.setMetalMineLevel(10);
-            planet1.setCrystalMineLevel(15);
-            planet1.setDeuteriumMineLevel(5);
-            planetRepository.save(planet1);
+            Planet planet1_u1 = new Planet();
+            planet1_u1.setName("gum-gum pistol");
+            planet1_u1.setUserUniverse(userUniverse1);
+            planet1_u1.setMetalMineLevel(10);
+            planet1_u1.setCrystalMineLevel(15);
+            planet1_u1.setDeuteriumMineLevel(5);
+            planetRepository.save(planet1_u1);
 
-            Planet planet2 = new Planet();
-            planet2.setName("gum-gum bazooka");
-            planet2.setUserUniverse(userUniverse2);
-            planet2.setMetalMineLevel(12);
-            planet2.setCrystalMineLevel(18);
-            planet2.setDeuteriumMineLevel(6);
-            planetRepository.save(planet2);
+            Planet planet2_u1 = new Planet();
+            planet2_u1.setName("gum-gum bazooka");
+            planet2_u1.setUserUniverse(userUniverse1);
+            planet2_u1.setMetalMineLevel(12);
+            planet2_u1.setCrystalMineLevel(18);
+            planet2_u1.setDeuteriumMineLevel(6);
+            planetRepository.save(planet2_u1);
+
+            Planet planet1_u2 = new Planet();
+            planet1_u2.setName("gum-gum red hawk");
+            planet1_u2.setUserUniverse(userUniverse2);
+            planet1_u2.setMetalMineLevel(12);
+            planet1_u2.setCrystalMineLevel(18);
+            planet1_u2.setDeuteriumMineLevel(6);
+            planetRepository.save(planet1_u2);
         };
     }
 }

@@ -28,9 +28,10 @@ public class SecurityUtils {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found"));
     }
 
-    public UserUniverse getUserUniverse(Universe universe) {
+    public UserUniverse getUserUniverse(String universe) {
         User user = getAuthenticatedUser();
-        return userUniverseRepository.findByUserAndUniverse(user, universe)
+        Universe mappedUniverse = Universe.fromUrlName(universe);
+        return userUniverseRepository.findByUserAndUniverse(user, mappedUniverse)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "UserUniverse not found"));
     }
 }

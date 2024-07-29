@@ -1,6 +1,7 @@
 package com.ogame.core.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,14 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ogame.core.api.dto.PlanetDto;
 import com.ogame.core.domain.Planet;
-import com.ogame.core.domain.Universe;
 import com.ogame.core.domain.UserUniverse;
 import com.ogame.core.repository.PlanetRepository;
+import com.ogame.core.service.PlanetMapper;
 import com.ogame.core.util.SecurityUtils;
 
 @RestController
-@RequestMapping("/api/planet")
+@RequestMapping("/api/{universe}/planet")
 public class PlanetApi {
 
     private final PlanetRepository planetRepository;
@@ -29,18 +31,21 @@ public class PlanetApi {
         this.securityUtils = securityUtils;
     }
 
-    @GetMapping("/{universe}")
-    public List<Planet> getUserPlanets(@PathVariable Universe universe) {
+    @GetMapping
+    public List<PlanetDto> getUserPlanets(@PathVariable String universe) {
         UserUniverse userUniverse = securityUtils.getUserUniverse(universe);
-
-        return planetRepository.findByUserUniverse(userUniverse).orElse(List.of());
+        return planetRepository.findByUserUniverse(userUniverse)
+                .orElse(List.of())
+                .stream()
+                .map(PlanetMapper::toPlanetDto)
+                .collect(Collectors.toList());
     }
-    @PostMapping("/{universe}")
-    public Planet addPlanet(@PathVariable Universe universe, @RequestBody Planet planet) {
+
+    @PostMapping
+    public PlanetDto addPlanet(@PathVariable String universe, @RequestBody Planet planet) {
         UserUniverse userUniverse = securityUtils.getUserUniverse(universe);
         planet.setUserUniverse(userUniverse);
-        return planetRepository.save(planet);
+        Planet savedPlanet = planetRepository.save(planet);
+        return PlanetMapper.toPlanetDto(savedPlanet);
     }
-
-
 }
