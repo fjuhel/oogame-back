@@ -1,31 +1,30 @@
 package com.ogame.core.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.ogame.core.domain.User;
 import com.ogame.core.repository.UserRepository;
-
+import com.ogame.core.util.SecurityUtils;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserApi {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SecurityUtils securityUtils;
 
     @Autowired
-    public UserApi(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserApi(UserRepository userRepository, PasswordEncoder passwordEncoder, SecurityUtils securityUtils) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.securityUtils = securityUtils;
     }
 
     @PostMapping("/register")
@@ -36,13 +35,8 @@ public class UserApi {
         return "User registered successfully";
     }
 
-    @GetMapping("/user")
-    public User getUserDetails(@RequestParam String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found"));
-    }
-
-    @GetMapping("/users")
-    public Iterable<User> getUsers() {
-        return userRepository.findAll();
+    @GetMapping("/details")
+    public User getUserDetails() {
+        return securityUtils.getAuthenticatedUser();
     }
 }

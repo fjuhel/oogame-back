@@ -25,7 +25,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/register").permitAll()
+                .requestMatchers("/api/user/register").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(httpBasicCustomizer -> {})  // Configures HTTP Basic authentication with default settings
