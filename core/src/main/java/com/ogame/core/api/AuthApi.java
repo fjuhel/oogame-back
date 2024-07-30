@@ -18,6 +18,7 @@ import com.ogame.core.config.JwtTokenProvider;
 import com.ogame.core.domain.User;
 import com.ogame.core.repository.UserRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +38,7 @@ public class AuthApi {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Operation(tags = "Auth", operationId = "login")
     @PostMapping("/login")
     public Map<String, String> authenticateUser(@RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -55,6 +57,7 @@ public class AuthApi {
         return response;
     }
 
+    @Operation(tags = "Auth", operationId = "register")
     @PostMapping("/register")
     public User registerUser(@RequestBody RegisterRequest registerRequest) {
         User user = new User();

@@ -11,6 +11,8 @@ import com.ogame.core.domain.UserUniverse;
 import com.ogame.core.repository.UserUniverseRepository;
 import com.ogame.core.util.SecurityUtils;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping("/api/universe")
 public class UserUniverseApi {
@@ -24,6 +26,7 @@ public class UserUniverseApi {
         this.securityUtils = securityUtils;
     }
 
+    @Operation(tags = "UserUniverse", operationId = "createUserUniverse")
     @PostMapping
     public UserUniverse addUserUniverse(@RequestBody UserUniverse data) {
         User user = securityUtils.getAuthenticatedUser();

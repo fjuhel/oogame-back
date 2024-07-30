@@ -18,19 +18,23 @@ import com.ogame.core.repository.PlanetRepository;
 import com.ogame.core.service.PlanetMapper;
 import com.ogame.core.util.SecurityUtils;
 
+import io.swagger.v3.oas.annotations.Operation;
+
+
 @RestController
 @RequestMapping("/api/{universe}/planet")
-public class PlanetApi {
+public class UserPlanetApi {
 
     private final PlanetRepository planetRepository;
     private final SecurityUtils securityUtils;
 
     @Autowired
-    public PlanetApi(PlanetRepository planetRepository, SecurityUtils securityUtils) {
+    public UserPlanetApi(PlanetRepository planetRepository, SecurityUtils securityUtils) {
         this.planetRepository = planetRepository;
         this.securityUtils = securityUtils;
     }
 
+    @Operation(tags = "UserPlanet", operationId = "getUserPlanets")
     @GetMapping
     public List<PlanetDto> getUserPlanets(@PathVariable String universe) {
         UserUniverse userUniverse = securityUtils.getUserUniverse(universe);
@@ -41,6 +45,7 @@ public class PlanetApi {
                 .collect(Collectors.toList());
     }
 
+    @Operation(tags = "UserPlanet", operationId = "createUserPlanet")
     @PostMapping
     public PlanetDto addPlanet(@PathVariable String universe, @RequestBody Planet planet) {
         UserUniverse userUniverse = securityUtils.getUserUniverse(universe);
