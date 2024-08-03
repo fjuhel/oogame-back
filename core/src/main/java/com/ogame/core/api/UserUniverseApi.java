@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ogame.core.domain.UniverseEnum;
 import com.ogame.core.domain.User;
 import com.ogame.core.domain.UserUniverse;
 import com.ogame.core.repository.UserUniverseRepository;
@@ -28,9 +29,8 @@ public class UserUniverseApi {
 
     @Operation(tags = "UserUniverse", operationId = "createUserUniverse")
     @PostMapping
-    public UserUniverse addUserUniverse(@RequestBody UserUniverse data) {
+    public UserUniverse addUserUniverse(@RequestBody UniverseEnum universe) {
         User user = securityUtils.getAuthenticatedUser();
-        data.setUser(user);
-        return userUniverseRepository.save(data);
+        return userUniverseRepository.save(new UserUniverse(user, universe));
     }
 }

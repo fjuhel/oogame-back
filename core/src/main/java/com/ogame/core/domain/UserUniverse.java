@@ -13,73 +13,43 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
+@Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
+@NoArgsConstructor
 public class UserUniverse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @NonNull
     @Enumerated(EnumType.STRING)
-    private Universe universe;
+    private UniverseEnum universe;
 
+    @Setter
     private int points;
+
+    @Setter
     private int honorPoints;
 
+    @Setter
+    private int energyTechnologyLevel;
+
+    @Setter
     @OneToMany(mappedBy = "userUniverse", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Planet> planets = new HashSet<>();
-
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Universe getUniverse() {
-        return universe;
-    }
-
-    public void setUniverse(Universe universe) {
-        this.universe = universe;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
-    }
-
-    public int getHonorPoints() {
-        return honorPoints;
-    }
-
-    public void setHonorPoints(int honorPoints) {
-        this.honorPoints = honorPoints;
-    }
-
-    public Set<Planet> getPlanets() {
-        return planets;
-    }
-
-    public void setPlanets(Set<Planet> planets) {
-        this.planets = planets;
-    }
 }

@@ -1,16 +1,28 @@
 package com.ogame.core.service;
 
+import org.mapstruct.Context;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
+import org.mapstruct.ReportingPolicy;
+
 import com.ogame.core.api.dto.PlanetDto;
 import com.ogame.core.domain.Planet;
+import com.ogame.core.domain.PlanetResources;
 
-public class PlanetMapper {
-    public static PlanetDto toPlanetDto(Planet planet) {
-        return new PlanetDto(
-            planet.getId(),
-            planet.getName(),
-            planet.getMetalMineLevel(),
-            planet.getCrystalMineLevel(),
-            planet.getDeuteriumMineLevel()
-        );
+
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
+public interface PlanetMapper {
+    @Mapping(target = "resources", source = "planet", qualifiedByName = "computePlanetResources")
+    PlanetDto toPlanetDto(Planet planet,  @Context PlanetResourcesService planetResourceService);
+
+    @Mapping(target = "userUniverse", ignore = true)
+    Planet toPlanet(PlanetDto planetDto);
+
+
+    @Named("computePlanetResources")
+    default PlanetResources computePlanetResources(Planet planet, @Context PlanetResourcesService planetResourceService) {
+        return planetResourceService.computeResourceProduction(planet);
     }
+
 }

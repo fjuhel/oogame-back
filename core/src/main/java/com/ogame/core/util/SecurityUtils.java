@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.ogame.core.domain.Universe;
+import com.ogame.core.domain.UniverseEnum;
 import com.ogame.core.domain.User;
 import com.ogame.core.domain.UserUniverse;
 import com.ogame.core.repository.UserRepository;
@@ -28,10 +28,9 @@ public class SecurityUtils {
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "User not found"));
     }
 
-    public UserUniverse getUserUniverse(String universe) {
+    public UserUniverse getUserUniverse(UniverseEnum universe) {
         User user = getAuthenticatedUser();
-        Universe mappedUniverse = Universe.fromUrlName(universe);
-        return userUniverseRepository.findByUserAndUniverse(user, mappedUniverse)
+        return userUniverseRepository.findByUserAndUniverse(user, universe)
                 .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "UserUniverse not found"));
     }
 }

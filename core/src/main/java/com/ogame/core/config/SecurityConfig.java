@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,7 +33,9 @@ public class SecurityConfig {
         "/v3/api-docs/**",
         "/swagger-resources/**",
         "/swagger-resources",
+        "/swagger-ui.html",
         "/api-docs",
+        "/webjars/**"
     };
 
     @Bean
@@ -46,6 +49,7 @@ public class SecurityConfig {
             .httpBasic(httpBasicCustomizer -> {})  // Configures HTTP Basic authentication with default settings
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
             .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity in this example
+            .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Ensure session is stateless
 
         return http.build();

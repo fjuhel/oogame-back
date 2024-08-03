@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +21,8 @@ import io.jsonwebtoken.security.Keys;
 
 @Component
 public class JwtTokenProvider {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
 
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
@@ -49,17 +53,13 @@ public class JwtTokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (ExpiredJwtException e) {
-            // handle expired token
-            System.out.println("Token expired");
+            logger.error("Token expired");
         } catch (UnsupportedJwtException e) {
-            // handle unsupported token
-            System.out.println("Unsupported JWT");
+            logger.error("Unsupported JWT : " + token);
         } catch (MalformedJwtException e) {
-            // handle invalid token
-            System.out.println("Invalid JWT");
+            logger.error("Invalid JWT, given token is " + token);
         } catch (IllegalArgumentException e) {
-            // handle empty or null token
-            System.out.println("JWT claims string is empty");
+            logger.error("JWT claims string is empty");
         }
         return false;
     }
