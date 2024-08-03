@@ -14,6 +14,8 @@ import com.ogame.core.domain.PlanetResources;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PlanetMapper {
     @Mapping(target = "resources", source = "planet", qualifiedByName = "computePlanetResources")
+    @Mapping(target = "totalFields", source = "planet", qualifiedByName = "computeTotalFields")
+    @Mapping(target = "occupiedFields", source = "planet", qualifiedByName = "computeOccupiedFields")
     PlanetDto toPlanetDto(Planet planet,  @Context PlanetResourcesService planetResourceService);
 
     @Mapping(target = "userUniverse", ignore = true)
@@ -23,6 +25,16 @@ public interface PlanetMapper {
     @Named("computePlanetResources")
     default PlanetResources computePlanetResources(Planet planet, @Context PlanetResourcesService planetResourceService) {
         return planetResourceService.computeResourceProduction(planet);
+    }
+
+    @Named("computeTotalFields")
+    default int computeTotalFields(Planet planet, @Context PlanetResourcesService planetResourceService) {
+        return planetResourceService.computeTotalFields(planet);
+    }
+
+    @Named("computeOccupiedFields")
+    default int computeOccupiedFields(Planet planet, @Context PlanetResourcesService planetResourceService) {
+        return planetResourceService.computeOccupiedFields(planet);
     }
 
 }

@@ -89,4 +89,32 @@ public class PlanetResourcesService {
         if (storageLevel == 0) return 10_000;
         return (int) (5000 * Math.floor(2.5 * Math.pow(Math.E, (20 / 33) * storageLevel)));
     }
+
+    public int computeTotalFields(Planet planet) {
+        int baseFields = planet.getBaseFields();
+        int terraformerLevel = planet.getTerraformerLevel();
+        int terraformedFields = terraformerLevel * 5;
+        int terraformedFieldsBonusFields = (terraformerLevel / 2);
+        return baseFields + terraformedFields + terraformedFieldsBonusFields;
+    }
+
+    public int computeOccupiedFields(Planet planet) {
+        return
+            planet.getMetalMineLevel()
+            + planet.getCrystalMineLevel()
+            + planet.getDeuteriumMineLevel()
+            + planet.getSolarPlantLevel()
+            + planet.getFusionReactorLevel()
+            + planet.getSolarSatellite()
+            + planet.getMetalStorageLevel()
+            + planet.getCrystalStorageLevel()
+            + planet.getDeuteriumStorageLevel()
+            + planet.getRoboticsFactoryLevel()
+            + planet.getShipyardLevel()
+            + planet.getResearchLabLevel()
+            + planet.getAllianceDepotLevel()
+            + planet.getMissileSiloLevel()
+            + planet.getNaniteFactoryLevel()
+            + planet.getTerraformerLevel();
+    }
 }

@@ -35,6 +35,7 @@ public class PlanetMapperTest {
           5000, // diameter
           0, // minTemperature
           100, // maxTemperature
+          180, // baseFields
           50, // metal
           50, // crystal
           50, // deuterium

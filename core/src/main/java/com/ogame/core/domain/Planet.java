@@ -44,6 +44,7 @@ public class Planet {
     private int diameter;
     private int minTemperature;
     private int maxTemperature;
+    private int baseFields;
 
     // Resource levels
     private int metal;

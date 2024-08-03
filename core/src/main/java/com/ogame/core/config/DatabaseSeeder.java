@@ -59,6 +59,7 @@ public class DatabaseSeeder {
                 5000,
                 0,
                 100,
+                180,
                 50,
                 50,
                 50,

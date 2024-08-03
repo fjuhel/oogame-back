@@ -27,6 +27,12 @@ public class PlanetDto {
     private int minTemperature;
     @NotNull
     private int maxTemperature;
+    @NotNull
+    private int baseFields;
+    @NotNull
+    private int totalFields;
+    @NotNull
+    private int occupiedFields;
 
     // Position
     @NotNull
